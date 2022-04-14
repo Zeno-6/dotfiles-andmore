@@ -1,4 +1,8 @@
-/* See LICENSE file for copyright and license details. */
+/* 
+This is a config file for st (suckless terminal).
+Rename to "config.h" and place in the st make directory for it to work.
+I customized some patches and a unique color scheme.
+*/
 
 /*
  * appearance
