@@ -1,6 +1,12 @@
 /* See LICENSE file for copyright and license details. */
 
 /*
+ * This is a personally altered cnofiguration file for the st terminal from Suckless.
+ * We added a few patches to allow mouse scrollback and transparent background, as well as select copy & middle-click paste.
+ * Theme is Dracula. Font is DejaVu Sans Mono size=16.
+/*
+
+/*
  * appearance
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
