@@ -1,0 +1,20 @@
+## Readme
+
+This is a custom patched version of st (simple terminal) by me. 
+
+We included the following patches (alphabetical order):
+* alpha
+* anysize
+* boxdraw
+* clipboard
+* defaultfontsize
+* delkey
+* dracula
+* scrollback (with mouse)
+* w3m hack
+
+There were some manual resolution necessary between alpha/boxdraw/scrollback, so use this patched version for convenience. 
+
+For further changes, the font is changed to DejaVu Sans Mono size=16. No other changes were made.
+
+st version is 0.8.5. 
