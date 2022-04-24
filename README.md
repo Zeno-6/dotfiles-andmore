@@ -1,5 +1,5 @@
 # nix-customization-personal
 
-Dot files and more for customizing *nix systerms, r/unixporn style.
+Dot files and more for customizing my own *nix* systerms.
 
-This repo shouldn't be shared; create new ones if any particular theme/style is attractive.
+I didn't intend to share this repo, but if you somehow stumbled across this repo and your name is Zian, I honestly don't mind anyways. 
