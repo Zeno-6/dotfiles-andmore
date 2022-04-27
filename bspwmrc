@@ -1,0 +1,30 @@
+#! /bin/sh
+### Last updated 4/27/2022
+
+# Default options
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d "1" "2" "3" "4" "5" "6" "7" "8" "9" "0"
+bspc config border_width         2
+bspc config window_gap          12
+bspc config split_ratio          0.6
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# Window rules
+bspc rule -a Gimp desktop='^4' state=floating follow=on
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+
+# Wallpaper
+feh --bg-fill /usr/share/backgrounds/dracula/base.png
+# Autostart programs
+polybar zlbar &   # Polybar
+picom -b &   # Compositor
+dunst &   # Notification system
+# Starts IBus daemon
+#export GTK_IM_MODULE=ibus
+#export QT_IM_MODULE=ibus
+#export XMODIFIERS=@im=ibus
+#ibus-daemon -drxR
