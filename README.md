@@ -6,7 +6,7 @@ Dot files and more for customizing my own *nix* systerms. This is purely for my 
 
 * bspwm & sxhtk
 * polybar
-* bash_rc (make sure to rename to .bash_rc)
+* bashrc (make sure to rename to .bashrc)
 * xinitrc (make sure to rename to .xinitrc)
 * st-0.8.5
 * i3-config
