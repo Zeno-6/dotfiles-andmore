@@ -1,0 +1,66 @@
+theme = "dracula"
+icons = "awesome5"
+
+
+[[block]]
+block = "music"
+buttons = ["play", "next"]
+
+[[block]]
+block = "time"
+interval = 5
+format = "%a %m/%d %R"
+timezone = "US/Central"
+
+[[block]]
+block = "weather"
+format = "{weather} {temp}F {humidity}% {wind}mph {direction}"
+autolocate = true
+service = { name = "openweathermap", api_key = "e50e80be6f2634a2f1f581d2fb30fe7c", city_id = "4699066", units = "imperial" }
+interval = 900
+
+[[block]]
+block = "backlight"
+cycle = [5, 10, 25, 50, 75, 90, 100]
+
+[[block]]
+block = "sound"
+driver = "auto"
+step_width = 10
+max_vol = 300
+
+[[block]]
+block = "networkmanager"
+#on_click = "st -e nmtui"
+interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
+interface_name_include = []
+ap_format = "{ssid^10}"
+
+[[block]]
+block = "cpu"
+interval = 1
+format = "{barchart} {utilization} {frequency}"
+critical = 95
+
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{mem_used}"
+format_swap = "{swap_used}"
+critical_mem = 95.0
+critical_swap = 95.0
+
+[[block]]
+block = "disk_space"
+path = "/"
+alias = "/"
+info_type = "available"
+unit = "GB"
+interval = 60
+warning = 20.0
+alert = 10.0
+
+[[block]]
+block = "battery"
+interval = 10
+format = "{percentage} {time}"
