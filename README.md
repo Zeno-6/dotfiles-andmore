@@ -5,6 +5,7 @@ Dot files and more for customizing my own *nix* systerms. This is purely for my 
 ### Contents (not in any particular order)
 
 * bspwm & sxhtk
+* sway
 * polybar
 * bashrc (make sure to rename to .bashrc)
 * xinitrc (make sure to rename to .xinitrc)
