@@ -4,6 +4,7 @@ Dot files and more for customizing my own *nix* systerms. This is purely for my 
 
 ### Contents (not in any particular order)
 
+* Gentoo kernel configs (5.17.5) for my laptop
 * bspwm & sxhtk
 * sway
 * polybar
