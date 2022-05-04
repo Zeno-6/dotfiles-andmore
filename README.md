@@ -11,7 +11,7 @@ If you somehow came across this repo and want to copy anything, feel free.
 * polybar config
 * bashrc (make sure to rename to .bashrc)
 * xinitrc (make sure to rename to .xinitrc)
-* st-0.8.5 source code
+* st-0.8.5 source code (patched and customized)
 * Some random art I made
 
 Enjoy!
