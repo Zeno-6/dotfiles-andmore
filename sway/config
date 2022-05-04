@@ -12,13 +12,14 @@ set $term footclient
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | fuzzel -b 381d1edd -t ffffffdd | xargs swaymsg exec --
+set $menu dmenu_path | j4-dmenu-desktop --dmenu='bemenu -i -n --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 14"' --term='footclient'
 # Gaps for aesthetic purposes
 gaps inner 10
 
 ### Output configuration
 # Wallpaper
-output * bg  '/usr/share/backgrounds/dracula/base.png' fill
+#output * bg  '/home/zianl/custom/wallpapers/gentoo/genchu_02_dark.jpg' fill
+output * bg  '/home/zianl/custom/wallpapers/emerge_world.png' fill
 
 # Turn off display after 600 seconds
 exec swayidle -w \
@@ -49,18 +50,18 @@ exec swayidle -w \
     # mouse button for dragging.
     floating_modifier $mod normal
     # Fn key-related events:
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume 0 -10%
-    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume 0 +10%
-    bindsym --locked XF86AudioMute exec pactl set-sink-mute 0 toggle
+    bindsym --locked XF86MonBrightnessDown exec light -U 5
+    bindsym --locked XF86MonBrightnessUp exec light -A 5 
+    bindsym --locked XF86AudioRaiseVolume exec amixer set 'Master' 10%+
+    bindsym --locked XF86AudioLowerVolume exec amixer set 'Master' 10%-
+    bindsym --locked XF86AudioMute exec amixer set 'Master' toggle
     # Reload the configuration file
     bindsym $mod+Shift+r reload
     # Exit sway (logs you out of your Wayland session)
     mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
-      bindsym l exec --no-startup-id i3-msg exit
-      bindsym r exec --no-startup-id systemctl reboot
-      bindsym s exec --no-startup-id systemctl poweroff
+      bindsym l exec --no-startup-id swaymsg exit
+      bindsym r exec --no-startup-id doas reboot
+      bindsym s exec --no-startup-id doas poweroff
       bindsym Escape mode "default"
       bindsym Return mode "default"
     }
@@ -170,26 +171,13 @@ bindsym $mod+r mode "resize"
 #
 # Custom keybindings
 #
-# Hotkey to start IBus
-bindsym $mod+Ctrl+space exec ~/.config/sway/start_ibus.sh
-# Load layout
-bindsym $mod+Ctrl+a exec ~/.config/sway/load_layout.sh
+# Hotkey to start Language typing
+bindsym $mod+Ctrl+space exec "fcitx -d"
 
 # Status bar
-# Use i3status-bar instead of the default
 bar {
-    font pango:DejaVu Sans Mono, FreeSans 14
-    position top
-    status_command /usr/bin/i3status-rs /home/zianl/.config/i3status-rust/config.toml
-    colors {
-        separator #666666
-        background #222222
-        statusline #dddddd
-        focused_workspace #0088CC #0088CC #ffffff
-        active_workspace #333333 #333333 #ffffff
-        inactive_workspace #333333 #333333 #888888
-        urgent_workspace #2f343a #900000 #ffffff
-    }
+    # Bar options
+    swaybar_command waybar
 }
 
 include /etc/sway/config.d/*
@@ -199,5 +187,10 @@ include /etc/sway/config.d/*
 # Disable title bars on applications
 default_border none
 # Autostart programs
-exec --no-startup-id dunst   # Notification
-exec --no-startup-id foot --server   # foot terminal server
+exec dbus-launch --sh-syntax --exit-with-session   # D-Bus
+exec gentoo-pipewire-launcher   # Pipewire
+exec dunst   # Notification
+exec foot --server   # foot terminal server
+exec --no-startup-id fcitx -d   # Fcitx Chinese input
+# More autostart programs
+exec_always ~/.config/sway/autotiling.py   # Autotiling script
