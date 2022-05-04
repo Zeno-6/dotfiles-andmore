@@ -12,6 +12,7 @@ If you somehow came across this repo and want to copy anything, feel free.
 * bashrc (make sure to rename to .bashrc)
 * xinitrc (make sure to rename to .xinitrc)
 * st-0.8.5 source code (patched and customized)
+* i3status-rust config
 * Some random art I made
 
 Enjoy!
