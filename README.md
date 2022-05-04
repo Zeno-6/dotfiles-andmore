@@ -5,7 +5,7 @@ If you somehow came across this repo and want to copy anything, feel free.
 
 ### Contents (not in any particular order)
 
-* Gentoo kernel configs (5.17.5) for Dell 7390 2-in-1
+* Gentoo kernel configs (5.17.5) for Dell 7390 2-in-1 (note: the setting is pretty minimal!)
 * bspwm & sxhtk configs
 * sway config
 * polybar config
