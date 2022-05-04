@@ -13,6 +13,6 @@ If you somehow came across this repo and want to copy anything, feel free.
 * xinitrc (make sure to rename to .xinitrc)
 * st-0.8.5 source code (patched and customized)
 * i3status-rust config
-* Some random art I made
+* Some wallpapers I collected
 
 Enjoy!
