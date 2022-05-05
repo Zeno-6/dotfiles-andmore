@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# requires fontawesome-fonts
+
+command -v jq >/dev/null 2>&1 || { echo >&2 "Program 'jq' required but it is not installed.  Aborting."; exit 1; }
+command -v wget >/dev/null 2>&1 || { echo >&2 "Program 'wget' required but is not installed.  Aborting."; exit 1; }
+
+# customisation:
+
+OPENWEATHER_APIKEY="60be39ea268c99ba295371849d5df4eb"
+OPENWEATHER_CITY_ID="4699066"
+ALARMING_TEMP=35
+ALARMING_WIND=30
+
+# end of customisations
+
+# get data:
+URL="http://api.openweathermap.org/data/2.5/weather?id=${OPENWEATHER_CITY_ID}&units=imperial&APPID=${OPENWEATHER_APIKEY}"
+OPENWEATHER_JSON=$(wget -qO- "${URL}" )
+
+[[ "$1" == raw ]] && {
+    echo "Open Weather"
+    echo "============"
+    echo "$OPENWEATHER_JSON" | jq .
+    exit 0
+}
+
+# MOON_URL="https://api.usno.navy.mil/moon/phase?date=today&nump=1"
+# MOON_JSON=$( wget -qO- --no-check-certificate "$MOON_URL" )
+
+# calculations:
+WEATHER_CONDITION=$(echo $OPENWEATHER_JSON | jq '.weather[0].main' | sed 's/"//g')
+WEATHER_TEMP=$(echo $OPENWEATHER_JSON | jq '.main.temp') # unreliable
+TEMP_MIN=$(echo $OPENWEATHER_JSON | jq '.main.temp_min')
+TEMP_MAX=$(echo $OPENWEATHER_JSON | jq '.main.temp_max')
+# round temp to nearest 0.1
+WEATHER_TEMP=$( awk "BEGIN {printf \"%.1f\\n\", $WEATHER_TEMP}" )
+WIND_DIR=$( echo "$OPENWEATHER_JSON" | jq '.wind.deg')
+WIND_SPEED=$( echo "$OPENWEATHER_JSON" | jq '.wind.speed')
+WIND_RANGE=$WIND_SPEED
+
+SUNRISE=$( echo "$OPENWEATHER_JSON" | jq '.sys.sunrise' )
+SUNSET=$( echo "$OPENWEATHER_JSON" | jq '.sys.sunset' )
+
+NOW=$( date +%s )
+[[ "$SUNRISE" ]] || SUNRISE=$( date --date '6am today' +%s )
+[[ "$SUNSET"  ]] ||  SUNSET=$( date --date '6pm today' +%s )
+
+if (( NOW > SUNSET || NOW < SUNRISE )); then
+    DARK_MODE="dark"
+else
+    DARK_MODE="light"
+fi
+dark-mode $DARK_MODE &>/dev/null
+
+## WIND_SPEED=$(awk "BEGIN {print 60*60*$WIND_SPEED/1000}")
+# round speed to 1 kph
+## WIND_SPEED=$( awk "BEGIN {print int($WIND_SPEED+0.5)}" )
+## WIND_DIR=$(awk "BEGIN {print int(($WIND_DIR % 360)/22.5)}")
+## DIR_ARRAY=( N NNE NE ENE E ESE SE SSE S SSW SW WSW W WNW NW NNW N )
+## WIND_DIR=${DIR_ARRAY[WIND_DIR]}
+
+case $WEATHER_CONDITION in
+  'Clouds')
+    WEATHER_ICON=""
+    ;;
+  'Rain')
+    WEATHER_ICON=""
+    ;;
+  'Snow')
+    WEATHER_ICON=""
+    ;;
+  *)
+    WEATHER_ICON=""
+    ;;
+esac
+
+SUNRISE="$( date -d @$SUNRISE '+%H:%M')"
+SUNSET="$(  date -d @$SUNSET  '+%H:%M')"
+
+#MOON_PHASE_NAME=$( echo "$MOON_JSON" | jq -r .phasedata[0].phase )
+#
+#case "$MOON_PHASE_NAME" in
+#    "Full Moon")     MOON_PHASE=$'\U1F311' ;;
+#    "Last Quarter")  MOON_PHASE=$'\U1F313' ;;
+#    "New Moon")      MOON_PHASE=$'\U1f315' ;;
+#    "First Quarter") MOON_PHASE=$'\U1F317' ;;
+#    *)               MOON_PHASE=''
+#esac
+
+# echo "Moon phase = '$MOON_PHASE_NAME' = '$MOON_PHASE'" >&2
+
+# output:
+echo "${WEATHER_ICON}${WEATHER_TEMP}°F  ${WIND_RANGE}mph  $SUNRISE $SUNSET"
+#echo "${WEATHER_ICON}${WEATHER_TEMP}°C ${WIND_DIR} ${WIND_RANGE}kph"
+
+awk "BEGIN { if ( $WEATHER_TEMP > $ALARMING_TEMP || $WIND_SPEED > $ALARMING_WIND ) { print \"#FF0000\" } }"
+exit 0
+
+# Local Variables:
+# eval: (add-hook (make-local-variable 'after-save-hook) 'bh:ensure-in-vc-or-check-in t)
+# End:
