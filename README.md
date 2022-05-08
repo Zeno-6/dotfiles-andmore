@@ -1,7 +1,9 @@
 # Unix-like system dotfiles, customization, and more
 
 Dot files and more for my personal use. 
-If you somehow came across this repo and want to copy anything, feel free.
+If you somehow came across this repo and want to copy anything, feel free. 
+
+The repo is licensed as "unlicensed", so literally do whatever you want with these.
 
 ### Contents (not in any particular order)
 
