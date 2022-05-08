@@ -2,12 +2,15 @@
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
-    // "width": 1280, // Waybar width
+    "margin-top": 4,
+    "margin-left": 10,
+    "margin-right": 10,
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/separator", "sway/window"],
-    "modules-center": ["clock"],
-    "modules-right": ["custom/weather", "pulseaudio", "custom/nmclicheck", "backlight", "cpu", "memory", "battery", "tray"],
+    // "modules-left": ["sway/workspaces", "sway/mode", "custom/separator", "sway/window"],
+    "modules-left": ["river/tags"],
+    "modules-center": ["clock", "custom/weather"],
+    "modules-right": ["custom/nmclicheck", "pulseaudio", "backlight", "cpu", "memory", "custom/space", "battery"],
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
@@ -16,53 +19,24 @@
         "format-icons": {
             "1": "",
             "2": "",
-            "3": "",
+	    "3": "",
+	    "4": "",
             "urgent": "",
             "focused": "",
             "default": ""
       }
     },
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
-        }
+    "river/tags": {
+	"num-tags": 9,
+	"format": "{name}: {icon}",
+	"disable-click": false,
+	"tag-labels": ["", "", "", "", "5", "6", "7", "8", "9"]
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
-    "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 2,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
-    },
-    "tray": {
-        // "icon-size": 24,
-        "spacing": 10
+    "sway/window": {
+	"max-length": 50
     },
     "clock": {
         // "timezone": "America/Chicago",
@@ -78,14 +52,6 @@
     "memory": {
         "format": "{}% "
     },
-    "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
-    },
     "backlight": {
         // "device": "acpi_video1",
         "format": "{percent}% {icon}",
@@ -93,23 +59,13 @@
     },
     "battery": {
         "states": {
-            // "good": 90,
+            "good": 90,
             "warning": 30,
             "critical": 15
         },
         "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
-    },
-    "network": {
-        "interval": 15, 
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "format-disconnected": "Disconnected ⚠"
+        "format-icons": ["", "", "", "", ""],
+	"interval": 60
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -134,26 +90,21 @@
         // Pulls the weather from OpenWeatherMap, see script
 	"format": "{}",
 	"exec": "~/.config/waybar/weather",
-	"interval": 900
+	"interval": 600
+    },
+    "custom/space": { 
+	// Show amount of disk space left
+	"exec": "df -h / --output=avail | tail -n 1",
+	"interval": 600
     },
     "custom/separator": {
-        // Just a separator.
+        // A text separator.
 	"format": " | "
     },
     "custom/nmclicheck": {
-	// Checks networking with nmcli.
+	// Checks networking with nmcli since the default one is buggy.
 	"exec": "echo    $(nmcli networking connectivity)",
-	"interval": 15,
+	"interval": 30,
 	"on-click": "footclient -e nmtui"
     },
-    "custom/cava": {
-	// CAVA on the Waybar.
-	"exec": "~/.config/waybar/cava-on-bar",
-	"on-click": "footclient -e cava"
-    },
-    "custom/randomstuff": {
-        // Do a thing for fun
-    	"format": "Want a fortune?",
-        "on-click": "/home/zianl/.config/waybar/fortune-notify"
-    }
 }
