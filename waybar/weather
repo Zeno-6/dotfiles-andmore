@@ -19,7 +19,7 @@ URL="http://api.openweathermap.org/data/2.5/weather?id=${OPENWEATHER_CITY_ID}&un
 OPENWEATHER_JSON=$(wget -qO- "${URL}" )
 
 # Exit if string is empty, display disconnected message
-if [[ "$1" == "" ]]; then
+if [[ "$OPENWEATHER_JSON" == "" ]]; then
   echo "Not connected to OpenWeather"
   exit 0
 fi
