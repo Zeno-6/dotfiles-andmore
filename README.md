@@ -6,7 +6,7 @@ If you came across this repo and want to copy anything, feel free.
 
 The repo is licensed as "unlicensed", so literally do whatever you want with these.
 
-### Current (actively maintained)
+### Actively maintained
 
 * Gentoo kernel configs (5.17.5) for Dell 7390 2-in-1 (note: the setting is somewhat minimal!)
 * waybar config
@@ -14,7 +14,7 @@ The repo is licensed as "unlicensed", so literally do whatever you want with the
 * bashrc (make sure to rename to .bashrc)
 * Some wallpapers I collected
 
-### Depreciated (no longer actively maintained)
+### No longer actively maintained
 
 * bspwm & sxhtk configs
 * sway config
