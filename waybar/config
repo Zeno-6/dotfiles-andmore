@@ -2,41 +2,18 @@
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
-    "margin-top": 4,
+    "margin-top": 10,
     "margin-left": 10,
     "margin-right": 10,
-    "spacing": 4, // Gaps between modules (4px)
-    // Choose the order of the modules
-    // "modules-left": ["sway/workspaces", "sway/mode", "custom/separator", "sway/window"],
-    "modules-left": ["river/tags"],
+    "spacing": 0, // Gaps between modules (4px)
+    "modules-left": ["custom/logo", "river/tags"],
     "modules-center": ["clock", "custom/weather"],
     "modules-right": ["custom/nmclicheck", "pulseaudio", "backlight", "cpu", "memory", "custom/space", "battery"],
-    // Modules configuration
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{name}: {icon}",
-        "format-icons": {
-            "1": "",
-            "2": "",
-	    "3": "",
-	    "4": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-      }
-    },
     "river/tags": {
-	"num-tags": 9,
-	"format": "{name}: {icon}",
+	"num-tags": 5,
+	"format": "{name}",
 	"disable-click": false,
-	"tag-labels": ["", "", "", "", "5", "6", "7", "8", "9"]
-    },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
-    "sway/window": {
-	"max-length": 50
+	"tag-labels": ["1: ", "2: ", "3: ", "4: ", "5: "]
     },
     "clock": {
         // "timezone": "America/Chicago",
@@ -68,10 +45,8 @@
 	"interval": 60
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
+        "scroll-step": 5,
         "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
@@ -84,27 +59,33 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+	"on-click": "amixer set Master toggle",
+        "on-click-right": "pavucontrol"
     },
     "custom/weather": {
         // Pulls the weather from OpenWeatherMap, see script
 	"format": "{}",
 	"exec": "~/.config/waybar/weather",
-	"interval": 600
+	"interval": 600,
+	"exec-on-event": true,
+	"on-click": "~/.config/waybar/weather"
     },
     "custom/space": { 
 	// Show amount of disk space left
 	"exec": "df -h / --output=avail | tail -n 1",
 	"interval": 600
     },
-    "custom/separator": {
-        // A text separator.
-	"format": " | "
-    },
     "custom/nmclicheck": {
 	// Checks networking with nmcli since the default one is buggy.
 	"exec": "echo    $(nmcli networking connectivity)",
 	"interval": 30,
 	"on-click": "footclient -e nmtui"
+    },
+    "custom/logo": {
+    	// Displays a text logo.
+	"format": "[~]",
+	"tooltip": true,
+	"tooltip-format": "River WM",
+	"on-click": "footclient"
     },
 }
