@@ -1,10 +1,9 @@
 #!/bin/sh
-# Customized config file for Zian
+# Customized config file
 
 
 # Wallpaper with swaybg
 swaybg -m fill -i /home/zianl/custom/wallpapers/emerge_world.png & 
-#swaybg -m fill -i /home/zianl/custom/wallpapers/nature/bloodmoon.jpg & 
 
 # Autostart programs
 dbus-launch &
