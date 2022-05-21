@@ -1,0 +1,106 @@
+/* Global settings */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: Sans, Awesome, sans-serif;
+    font-size: 16px;
+}
+
+/* Bar and stuff */
+window#waybar {
+    background: transparent;
+    transition-property: background-color;
+    transition-duration: .3s;
+}
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* Stuff related to river tags */
+#tags button {
+    background-color: #282a36;
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    color: #f8f8f8;
+    padding: 0 10px;
+}
+
+#tags button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 -3px #f8f8f8;
+}
+
+#tags button.focused {
+    background-color: #44475a;
+    color: #f1fa8c;
+    box-shadow: inset 0 -3px #f1fa8c;
+}
+
+#tags button.urgent {
+    background-color: #ffb86c;
+}
+
+#tags {
+    margin: 0 8px;
+}
+label:focus {
+    background-color: #44475a;
+}
+
+
+/* Color scheme 1: yellow on somewhat lighter background */
+#cpu, #memory, #disk, #backlight, #temperature, #battery, 
+#battery.charging, #battery.plugged, #pulseaudio, 
+#network, #custom-nmclicheck, #custom-space {
+    background-color: #44475a;
+    color: #f1fa8c;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 10px;
+}
+#custom-nmclicheck{
+    margin-left: 0px;
+    border-radius: 10px 0px 0px 10px;    
+}
+#battery {
+    margin-right: 0px;
+    border-radius: 0px 10px 10px 0px;
+}
+
+/* Color scheme 1 alt: critical cases for 1 */
+#pulseaudio.muted, #battery.critical:not(.charging) {
+    background-color: #ffb86c;
+    color: #44475a;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 10px;
+}
+#battery.critical:not(.charging) {
+    margin-right: 0px;
+    border-radius: 0px 10px 10px 0px;
+}
+
+/* Color scheme 2: stuff in life */
+#clock, #custom-weather {
+    background-color: #44475a;
+    color: #8be9fd;
+    padding: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+#clock {
+    border-radius: 10px 0px 0px 10px;
+}
+#custom-weather {
+    border-radius: 0px 10px 10px 0px;
+}
+
+/* Last color scheme for the logo */
+#custom-logo {
+    padding: 0 15px;
+    margin-right: 10px;
+    background-color: #6272a4;
+    color: #8be9fd;
+    border-radius: 10px;
+}
+
