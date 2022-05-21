@@ -3,7 +3,8 @@
 
 
 # Wallpaper with swaybg
-swaybg -m fill -i /home/zianl/custom/wallpapers/emerge_world.png & 
+#swaybg -m fill -i /home/zianl/custom/wallpapers/emerge_world.png & 
+swaybg -m fill -i /home/zianl/custom/wallpapers/darkred.png & 
 
 # Autostart programs
 dbus-launch &
@@ -22,13 +23,14 @@ riverctl map normal Super Q close
 # Exit river
 riverctl map normal Super+Alt E exit
 # Shutdown and reboot
-riverctl map normal Super+Alt Q spawn "doas poweroff"
-riverctl map normal Super+Alt R spawn "doas reboot"
+riverctl map normal Super+Alt Q spawn "sudo poweroff"
+riverctl map normal Super+Alt R spawn "sudo reboot"
 
 # Open program launcher (bemenu-run):
-#riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 14"'
-riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#44475a" --nf "#f8f8f2" --fb "#44475a" --ff "#f8f8f2" --hb "#6272a4" --hf "#f1fa8c" --tb "#282a36" --tf "#8be9fd" --fn "pango:DejaVu Sans Mono 14"'
-
+# Dracula color scheme
+#riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#44475a" --nf "#f8f8f2" --fb "#44475a" --ff "#f8f8f2" --hb "#6272a4" --hf "#f1fa8c" --tb "#282a36" --tf "#8be9fd" --fn "pango:DejaVu Sans Mono 14"'
+# Edgy color scheme
+riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#131313" --nf "#dc4c4c" --fb "#131313" --ff "#dc4c4c" --hb "#474444" --hf "#e5dcd6" --tb "#390000" --tf "#e5dcd6" --fn "pango:DejaVu Sans Mono 14"'
 # Toggle language input (Fcitx):
 riverctl map normal Super+Control Space spawn "fcitx -d"
 
@@ -120,10 +122,13 @@ riverctl map normal Super Left  send-layout-cmd rivertile "main-location left"
 # Various media key mapping examples for both normal and locked mode which do not have a modifier
 for mode in normal locked
 do
-    # Control pulse audio volume
-    riverctl map $mode None XF86AudioRaiseVolume  spawn 'amixer set "Master" 10%+'
-    riverctl map $mode None XF86AudioLowerVolume  spawn 'amixer set "Master" 10%-'
-    riverctl map $mode None XF86AudioMute         spawn 'amixer set "Master" toggle'
+    # Control audio volume
+    riverctl map $mode None XF86AudioRaiseVolume  spawn 'pactl set-sink-volume 0 +10%'
+    #riverctl map $mode None XF86AudioRaiseVolume  spawn 'amixer set "Master" 10%+'
+    riverctl map $mode None XF86AudioLowerVolume  spawn 'pactl set-sink-volume 0 -10%'
+    #riverctl map $mode None XF86AudioLowerVolume  spawn 'amixer set "Master" 10%-'
+    riverctl map $mode None XF86AudioMute         spawn 'pactl set-sink-mute 0 toggle'
+    #riverctl map $mode None XF86AudioMute         spawn 'amixer set "Master" toggle'
 
     # Control screen backlight brighness with light
     riverctl map $mode None XF86MonBrightnessUp   spawn 'light -A 5'
