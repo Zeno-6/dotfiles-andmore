@@ -1,5 +1,5 @@
 # Unix-like system dotfiles, customization, and more
-### Last updated: 5/7/2022
+### Last updated: 5/27/2022
 
 Dot files and more for my personal use. 
 If you came across this repo and want to copy anything, feel free. 
