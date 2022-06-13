@@ -1,27 +1,18 @@
 # Unix-like system dotfiles, customization, and more
-### Last updated: 5/27/2022
+### Last updated: 6/13/2022
 
 Dot files and more for my personal use. 
-If you came across this repo and want to copy anything, feel free. 
+If you came across this repo and want to copy anything, feel free to do so. 
 
-The repo is licensed as "unlicensed", so literally do whatever you want with these.
+The repo is licensed as "unlicensed", so you can literally do whatever you want with these files.
 
 ### Actively maintained
 
-* Gentoo kernel configs (5.17.5) for Dell 7390 2-in-1 (note: the setting is somewhat minimal!)
+* Gentoo kernel configs
 * waybar config
 * riverwm config
-* bashrc (make sure to rename to .bashrc)
-* Some wallpapers I collected
-
-### No longer actively maintained
-
-* bspwm & sxhtk configs
-* sway config
+* bspwm/sxhkd config
 * polybar config
-* xinitrc (make sure to rename to .xinitrc)
-* st-0.8.5 source code (patched and customized)
-* i3status-rust config
-
+* bashrc (make sure to rename to .bashrc)
 
 Enjoy!
