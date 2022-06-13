@@ -3,8 +3,7 @@
 
 
 # Wallpaper with swaybg
-#swaybg -m fill -i /home/zianl/custom/wallpapers/emerge_world.png & 
-swaybg -m fill -i /home/zianl/custom/wallpapers/darkred.png & 
+swaybg -m fill -i /home/zianl/custom/wallpapers/genchu-in-box.png & 
 
 # Autostart programs
 dbus-launch &
@@ -12,7 +11,7 @@ waybar &
 gentoo-pipewire-launcher &
 dunst &
 foot --server &
-
+timidity -iAD -Os   # timidity
 
 # Start terminal, use footclient (foot --server required)
 riverctl map normal Super Return spawn footclient
@@ -30,7 +29,9 @@ riverctl map normal Super+Alt R spawn "sudo reboot"
 # Dracula color scheme
 #riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#44475a" --nf "#f8f8f2" --fb "#44475a" --ff "#f8f8f2" --hb "#6272a4" --hf "#f1fa8c" --tb "#282a36" --tf "#8be9fd" --fn "pango:DejaVu Sans Mono 14"'
 # Edgy color scheme
-riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#131313" --nf "#dc4c4c" --fb "#131313" --ff "#dc4c4c" --hb "#474444" --hf "#e5dcd6" --tb "#390000" --tf "#e5dcd6" --fn "pango:DejaVu Sans Mono 14"'
+#riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#131313" --nf "#dc4c4c" --fb "#131313" --ff "#dc4c4c" --hb "#474444" --hf "#e5dcd6" --tb "#390000" --tf "#e5dcd6" --fn "pango:DejaVu Sans Mono 14"'
+# Catpuccin
+riverctl map normal Super D spawn 'bemenu-run -i -n --nb "#303446" --nf "#c6ceef" --fb "#303446" --ff "#a5acc9" --hb "#414559" --hf "#99d1db" --tb "#232624" --tf "#a5acc9" --fn "pango:DejaVu Sans Mono 14"'
 # Toggle language input (Fcitx):
 riverctl map normal Super+Control Space spawn "fcitx -d"
 
