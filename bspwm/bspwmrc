@@ -13,18 +13,10 @@ bspc config gapless_monocle      true
 
 # Window rules
 bspc rule -a Gimp desktop='^4' state=floating follow=on
-bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
-bspc rule -a Screenkey manage=off
 
 # Wallpaper
-feh --bg-fill /usr/share/backgrounds/dracula/base.png
+feh --bg-fill /home/zianl/custom/wallpapers/genchu-in-box.png
 # Autostart programs
 polybar zlbar &   # Polybar
 picom -b &   # Compositor
 dunst &   # Notification system
-# Starts IBus daemon
-#export GTK_IM_MODULE=ibus
-#export QT_IM_MODULE=ibus
-#export XMODIFIERS=@im=ibus
-#ibus-daemon -drxR
