@@ -9,6 +9,7 @@ The repo is licensed as "unlicensed", so you can literally do whatever you want 
 ### Actively maintained
 
 * Gentoo kernel configs
+* st terminal patched source code
 * waybar config
 * riverwm config
 * bspwm/sxhkd config
