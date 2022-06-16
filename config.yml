@@ -1,0 +1,211 @@
+# Config file for yambar
+# Note that this may be version-dependent, this file is written for v1.8.0
+
+
+# Font anchors
+font-main: &fontmain DejavuSansMono:pixelsize=16
+font-aws: &awesome Font Awesome 5 Free:style=solid:pixelsize=14
+
+# Color anchors
+fg-none: &fgnone 00000000
+fg-1: &fg1 c6ceefff
+fg-blue: &fgblue 99d1dbff
+fg-sapphire: &fgsapp 74c7ecdd
+fg-green: &fggreen a6e3a1dd
+fg-peach: &fgpeach fab387dd
+fg-mauve: &fgmauve cba6f7dd
+fg-teal: &fgteal 94e2d5dd
+fg-lavendar: &fglav b4befedd
+fg-focus: &fgfocus e78284ff
+bg-1: &bg1 303446ff
+bg-tag: &bgtag 585b70ff
+bg-tag2: &bgtag2 45475aff
+bg-urgent: &bgurgent e78284ff
+
+# Background blocks
+background-block: &bgcblock {background: {color: *bg1 }}
+background-block-urgent: &bgcurg {background: {color: *bgurgent }}
+
+# Underlines
+underline-focused: &line {underline: { size: 3, color: *fgfocus}}
+underline-urgent: &lineurgent {underline: { size: 3, color: *fgblue}}
+underline-utils: &lineutil {underline: { size: 3, color: *fgpeach}}
+underline-resources: &linemem {underline: { size: 3, color: *fggreen}}
+underline-battery: &linebat {underline: { size: 3, color: *fgsapp}}
+underline-clock: &lineclock {underline: { size: 3, color: *fgteal}}
+underline-weather: &linewea {underline: { size: 3, color: *fglav}}
+underline-title: &linetitle {underline: { size: 3, color: *bgtag}}
+
+# Combined decorations
+combination-utils: &combutil {stack: [ <<: *bgcblock, <<: *lineutil]}
+combination-resources: &combmem {stack: [ <<: *bgcblock, <<: *linemem]}
+combination-battery: &combbat {stack: [ <<: *bgcblock, <<: *linebat]}
+combination-clock: &combclock {stack: [ <<: *bgcblock, <<: *lineclock]}
+combination-weather: &combwea {stack: [ <<: *bgcblock, <<: *linewea]}
+
+
+### Main
+
+bar:
+  location: top
+  height: 36
+  layer: bottom
+  spacing: 0
+  margin: 10
+  border: {margin: 0, top-margin: 10}
+  foreground: *fg1
+  background: *fgnone
+  font: *fontmain
+
+  ### Left, river tags
+  left:
+    - river:
+        anchors:
+          - id: &name { text: "{id}" }
+          - string: &focus { stack: [ {background: {color: *bg1}} ] }
+          - string: &normal { string: { <<: *name, margin: 10 } }
+          - string:
+              &occupied { string: { <<: *name, deco: {background: {color: *bgtag2}}, margin: 10 } }
+          - string: &urgent { string: { <<: *name, deco: {stack: [background: {color: *bgurgent}, <<: *lineurgent]}, margin: 10 } }
+          - string: &focused { string: { <<: *name, deco: {stack: [background: {color: *bgtag}, <<: *line]}, margin: 10 } }
+          - string: &unfocused { string: { <<: *name, deco: {background: {color: *bgtag2}}, margin: 10 } }
+          - base: &river_base
+              tag: state
+              default: *normal
+              values:
+                focused: *focused
+                unfocused: *unfocused
+                urgent: *urgent
+                invisible:
+                  map:
+                    tag: occupied
+                    values:
+                      true: *occupied
+                      false: *normal
+        content:
+          map:
+            on-click:
+              left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"
+              right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
+              middle: sh -c "riverctl toggle-view-tags $((1 << ({id} -1)))"
+            tag: id
+            values:
+              1: { map: { <<: *river_base } }
+              2: { map: { <<: *river_base } }
+              3: { map: { <<: *river_base } }
+              4: { map: { <<: *river_base } }
+              5: { map: { <<: *river_base } }
+        title:
+          map:
+            tag: title
+            default:
+              {
+                string:
+                  {
+                    text: "{title}",
+                    left-margin: 12,
+                    right-margin: 12,
+                    max: 35,
+                    deco: *linetitle
+                  },
+              }
+            values: { "": { string: { text: "" } } }
+
+  ### Center, clock & weather gadget
+  center:
+    - clock:
+        time-format: "%H:%M:%S %Z"
+        date-format: "%D (%a)"
+        foreground: *fgblue
+        content:
+          string: 
+            text: " {date} {time} "
+            deco: *combclock
+    - script:
+        foreground: *fgblue
+        path: /home/zianl/.config/yambar/scripts/weather_continuous
+        args: [900]
+        content: 
+          string: 
+            text: " {weatherlong} "
+            deco: *combwea
+
+  ### Right, system tray
+  right:
+    - network:
+        name: wlp108s0
+        poll-interval: 10
+        content:
+          map:
+            on-click: /bin/bash -c "nmtui"
+            tag: carrier
+            values:
+              false: {empty: {}}
+              true:
+                string: {text: "  {ssid} ", deco: *combutil}
+    - network:
+        name: enp0s20f0u1u4
+        content: 
+          map:
+            on-click: /bin/bash -c "nmtui"
+            tag: carrier
+            values:
+              false: {empty: {}}
+              true: 
+                string: {text: "  Eth ", deco: *combutil}
+    #- alsa:
+    #    card: default
+    #    mixer: Master
+    #    content:
+    #      map:
+    #        on-click: /bin/bash -c "pavucontrol"
+    #        tag: muted
+    #        values:
+    #          true: 
+    #            string: {text: "   ", deco: *bgcurg}
+    #          false: 
+    #            string: {text: "{volume}/65536", deco: *bgcblock}
+    - script:   # Use this until yambar fixes the alsa issue
+        path: /home/zianl/.config/yambar/scripts/amixer-monitor
+        args: [0.25]
+        content:
+          map:
+            on-click: /bin/bash -c "pavucontrol"
+            tag: muted
+            values:
+              true: 
+                string: {text: "   ", deco: *bgcurg}
+              false: 
+                string: {text: "  {volumeleft}% ", deco: *combutil}
+    - backlight:
+        name: intel_backlight
+        content:
+          - string: {text: "  {percent}% ", deco: *combutil}
+    - script:   # CPU
+        path: /home/zianl/.config/yambar/scripts/cpu
+        args: [10]
+        content:
+          string:
+            text: "  {cpu}% "
+            deco: *combmem
+    - script:   # Memory info
+        path: /home/zianl/.config/yambar/scripts/meminfo
+        args: [10]
+        content: 
+          string:
+            text: "  {memperc}%({swapperc}%) "
+            deco: *combmem
+    - script:   # Disk space
+        path: /home/zianl/.config/yambar/scripts/dfspace
+        args: [30]
+        content: 
+          string:
+            text: " {diskspace}({diskperc}) "
+            deco: *combmem
+    - battery:
+        name: BAT0
+        poll-interval: 30
+        content:
+          string: 
+            text: "  {capacity}%({estimate}) "
+            deco: {stack: [ <<: *bgcblock, <<: *linebat]}
