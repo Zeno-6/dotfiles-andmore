@@ -1,0 +1,19 @@
+#!/bin/sh
+# Uses df to assess remaining disk space
+
+# Sleep seconds
+Timer="${1:-30}"
+
+# Main loop
+while true; do
+
+  # Check space available (4) and percentage used (5)
+  SPACE=$(df -h / | tr -s ' ' | cut -f4 -d " " | tail -n 1)
+  SPACEPERC=$(df -h / | tr -s ' ' | cut -f5 -d " " | tail -n 1)
+
+  echo "diskspace|string|$SPACE"
+  echo "diskperc|string|$SPACEPERC"
+  echo ""
+  sleep $Timer
+
+done

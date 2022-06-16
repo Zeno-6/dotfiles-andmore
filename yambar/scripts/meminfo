@@ -1,0 +1,27 @@
+#!/bin/sh
+# Checks memory usage
+
+# Number of seconds to retest
+Timer="${1:-10}"
+
+# Memory info file
+MEMFILE='/proc/meminfo'
+
+# Main loop
+while true; do
+
+  MEMFREE=$(grep 'MemFree' $MEMFILE | tr -s ' ' | cut -f2 -d " ")
+  MEMTOTAL=$(grep 'MemTotal' $MEMFILE | tr -s ' ' | cut -f2 -d " ")
+  SWAPFREE=$(grep 'SwapFree' $MEMFILE | tr -s ' ' | cut -f2 -d " ")
+  SWAPTOTAL=$(grep 'SwapTotal' $MEMFILE | tr -s ' ' | cut -f2 -d " ")
+
+  # Note: make sure 100* is at the beginning or else the code won't work
+  MEMPERC=$(printf %.0f "$((100 - 100 * $MEMFREE / $MEMTOTAL))")
+  SWAPPERC=$(printf %.0f "$((100 - 100 * $SWAPFREE / $SWAPTOTAL))")
+
+  echo "memperc|string|$MEMPERC"
+  echo "swapperc|string|$SWAPPERC"
+  echo ""
+  sleep $Timer
+
+done

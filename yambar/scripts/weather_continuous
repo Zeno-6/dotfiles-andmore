@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+# Acknowledgement
+# This code is heavily copied from https://gitlab.com/wef/dotfiles/-/blob/master/.config/i3blocks/i3blocks/weather
+# I modified some displays to use it with waybar.
+
+# This specific version is designed for yambar and produces a continuous string of outputs.
+
+
+# Required API key and city ID:
+# Please enter your own API! You can get one for free at OpenWeatherMap
+OPENWEATHER_APIKEY="60be39ea268c99ba295371849d5df4eb"
+OPENWEATHER_CITY_ID="4699066"
+
+
+# Output wait time in seconds
+SLEEPTIME="${1:-900}"
+
+
+# Main loop, will never end
+while :
+do
+
+  # get data:
+  URL="http://api.openweathermap.org/data/2.5/weather?id=${OPENWEATHER_CITY_ID}&units=imperial&APPID=${OPENWEATHER_APIKEY}"
+  OPENWEATHER_JSON=$(wget -qO- "${URL}" )
+
+  # Exit if string is empty, display disconnected message
+  if [[ "$OPENWEATHER_JSON" == "" ]]; then 
+    echo "weather|string|Not connected to OpenWeather"
+    echo ""
+    # Script will then skip to the sleep part
+
+  else
+    # Following are weather getting scripts
+    # Extract info:
+    WEATHER_CONDITION=$(echo $OPENWEATHER_JSON | jq '.weather[0].main' | sed 's/"//g')
+    WEATHER_TEMP=$(echo $OPENWEATHER_JSON | jq '.main.temp') # unreliable
+    WEATHER_FEEL=$(echo $OPENWEATHER_JSON | jq '.main.feels_like')
+    TEMP_MIN=$(echo $OPENWEATHER_JSON | jq '.main.temp_min')
+    TEMP_MAX=$(echo $OPENWEATHER_JSON | jq '.main.temp_max')
+    HUMIDITY=$(echo $OPENWEATHER_JSON | jq '.main.humidity')
+    # Round temps to nearest 0.1
+    WEATHER_TEMP=$( awk "BEGIN {printf \"%.1f\\n\", $WEATHER_TEMP}" )
+    WEATHER_FEEL=$( awk "BEGIN {printf \"%.1f\\n\", $WEATHER_FEEL}" )
+    TEMP_MIN=$( awk "BEGIN {printf \"%.1f\\n\", $TEMP_MIN}" )
+    TEMP_MAX=$( awk "BEGIN {printf \"%.1f\\n\", $TEMP_MAX}" )
+    # Sunrise/sunset
+    SUNRISE=$( echo "$OPENWEATHER_JSON" | jq '.sys.sunrise' )
+    SUNSET=$( echo "$OPENWEATHER_JSON" | jq '.sys.sunset' )
+    NOW=$( date +%s )
+    [[ "$SUNRISE" ]] || SUNRISE=$( date --date '6am today' +%s )
+    [[ "$SUNSET"  ]] ||  SUNSET=$( date --date '6pm today' +%s )
+    # Fancy icons
+    case $WEATHER_CONDITION in
+      'Clouds')
+        WEATHER_ICON=""
+        ;;
+      'Rain')
+        WEATHER_ICON=""
+        ;;
+      'Snow')
+        WEATHER_ICON=""
+        ;;
+      *)
+        WEATHER_ICON=""
+        ;;
+    esac
+    SUNRISE="$( date -d @$SUNRISE '+%H:%M')"
+    SUNSET="$(  date -d @$SUNSET  '+%H:%M')"
+
+    # output:
+    # Current weather (feels like), humidity, min-max, sunrise, sunset
+    echo "weatherfull|string|${WEATHER_ICON}${WEATHER_TEMP}°F($WEATHER_FEEL°F) $HUMIDITY% $TEMP_MAX~$TEMP_MIN°F $SUNRISE~$SUNSET"
+    echo "weatherlong|string|${WEATHER_ICON}${WEATHER_TEMP}°F($WEATHER_FEEL°F) $HUMIDITY% $SUNRISE~$SUNSET"
+    echo "weathermed|string|${WEATHER_ICON}${WEATHER_TEMP}°F($WEATHER_FEEL°F) $SUNRISE~$SUNSET"
+    echo "weathershort|string|${WEATHER_ICON}${WEATHER_TEMP}°F($WEATHER_FEEL°F)"
+    echo "weatherbare|string|${WEATHER_TEMP}°F"
+    echo ""
+
+  fi
+
+  # Sleep for a designated number of seconds
+  sleep $SLEEPTIME
+
+done
