@@ -1,0 +1,30 @@
+#!/bin/sh
+# An improved amixer script that actually detects volume beyond 100%
+
+
+SLEEPTIME="${1:-1}"
+
+
+while true; do
+
+  # Check how many "on"s are there, if at least 1 is available then alsa is not muted
+  OnInt=$(amixer get Master | tail -2 | grep -c '\[on\]')
+
+  if [[ $OnInt -gt 0 ]]; then
+    # Read sink volume in percentages
+    Volume=$(amixer get Master |grep % |awk '{print $5}'|sed -e 's/\[//' -e 's/\]//' -e 's/%//')
+    VolumeL=$(echo $Volume | cut -f1 -d ' ')
+    VolumeR=$(echo $Volume | cut -f2 -d ' ')
+
+    echo "volumeleft|string|$VolumeL"
+    echo "volumeright|string|$VolumeR"
+    echo "muted|bool|false"
+
+  else
+    echo "muted|bool|true"
+  fi
+
+  echo ""
+  sleep $SLEEPTIME
+
+done
