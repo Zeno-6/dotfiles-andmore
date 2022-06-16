@@ -3,15 +3,15 @@
 
 
 # Wallpaper with swaybg
-swaybg -m fill -i /home/zianl/custom/wallpapers/genchu-in-box.png & 
+swaybg -m fill -i /home/zianl/Documents/Custom/wallpapers/genchu-in-box.png & 
 
 # Autostart programs
 dbus-launch &
-waybar &
+#waybar &
+yambar &
 gentoo-pipewire-launcher &
 dunst &
 foot --server &
-timidity -iAD -Os   # timidity
 
 # Start terminal, use footclient (foot --server required)
 riverctl map normal Super Return spawn footclient
